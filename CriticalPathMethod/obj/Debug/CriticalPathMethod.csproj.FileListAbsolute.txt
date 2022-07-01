@@ -1,0 +1,8 @@
+/Users/deraz/Repos/Critical-Path-Extension-Method-for-.NET./CriticalPathMethod/bin/Debug/input.txt
+/Users/deraz/Repos/Critical-Path-Extension-Method-for-.NET./CriticalPathMethod/bin/Debug/output.txt
+/Users/deraz/Repos/Critical-Path-Extension-Method-for-.NET./CriticalPathMethod/bin/Debug/CriticalPathMethod.exe
+/Users/deraz/Repos/Critical-Path-Extension-Method-for-.NET./CriticalPathMethod/bin/Debug/CriticalPathMethod.pdb
+/Users/deraz/Repos/Critical-Path-Extension-Method-for-.NET./CriticalPathMethod/obj/Debug/CriticalPathMethod.csproj.AssemblyReference.cache
+/Users/deraz/Repos/Critical-Path-Extension-Method-for-.NET./CriticalPathMethod/obj/Debug/CriticalPathMethod.csproj.CoreCompileInputs.cache
+/Users/deraz/Repos/Critical-Path-Extension-Method-for-.NET./CriticalPathMethod/obj/Debug/CriticalPathMethod.exe
+/Users/deraz/Repos/Critical-Path-Extension-Method-for-.NET./CriticalPathMethod/obj/Debug/CriticalPathMethod.pdb

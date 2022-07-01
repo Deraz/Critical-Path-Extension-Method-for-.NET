@@ -1,0 +1,22 @@
+﻿<Properties StartupConfiguration="{8CB7F623-6879-4DC2-B31B-311849010DE8}|Default">
+  <MonoDevelop.Ide.ItemProperties.CriticalPathMethod PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CriticalPathMethod" expanded="True">
+            <Node name="CriticalPathMethod" expanded="True">
+              <Node name="CriticalPathMethod.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

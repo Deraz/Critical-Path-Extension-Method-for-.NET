@@ -1,13 +1,3 @@
-//
-//	CPM - Critical Path Method C# Sample Application
-//	Copyright ©2006 Leniel Braz de Oliveira Macaferi & Wellington Magalhães Leite.
-//
-//  UBM COMPUTER ENGINEERING - 7TH TERM [http://www.ubm.br/]
-//  This program sample was developed and turned in as a term paper for Lab. of
-//  Software Engineering.
-//  The source code is provided "as is" without warranty.
-//
-
 using System;
 using System.Collections.Generic;
 using System.Text;

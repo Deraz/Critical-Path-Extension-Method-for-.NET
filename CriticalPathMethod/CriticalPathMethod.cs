@@ -1,14 +1,4 @@
-﻿//
-//	CPM - Critical Path Method C# Sample Application
-//	Copyright ©2006 Leniel Braz de Oliveira Macaferi & Wellington Magalhães Leite.
-//
-//  UBM COMPUTER ENGINEERING - 7TH TERM [http://www.ubm.br/]
-//  This program sample was developed and turned in as a term paper for Lab. of
-//  Software Engineering.
-//  The source code is provided "as is" without warranty.
-//
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,57 +15,19 @@ namespace ComputerEngineering
             // Array to store the activities that'll be evaluated.
             var activities = GetActivities();
             Output(activities.Shuffle().CriticalPath(p => p.Predecessors, l => (long)l.Duration));
-
-            // This should create an infinite loop
-            activities.First().Predecessors.Add(activities.Last());
-            CheckForLoops(activities);
-            activities.First().Predecessors.Remove(activities.Last());
-            activities.Skip(1).First().Predecessors.Add(activities.Skip(activities.Count() - 2).First());
-            CheckForLoops(activities.Shuffle());
-        }
-
-        private static void CheckForLoops(IEnumerable<Activity> activities) {
-            var isCaughtProperly = false;
-            var thread = new System.Threading.Thread(
-                () =>
-                    {
-                        try {
-                            activities.CriticalPath(p => p.Predecessors, l => (long)l.Duration);
-                        }
-                        catch (System.InvalidOperationException ex) {
-                            System.Console.WriteLine("Found problem: " + ex.Message);
-                            isCaughtProperly = true;
-                        }                        
-                    }
-                );
-            thread.Start();
-            for (var i = 0; i < 100; i++) {
-                Thread.Sleep(100); // Wait for 10 seconds - our thread should finish by then
-                if (thread.ThreadState != ThreadState.Running)
-                    break;
-            }
-            if(thread.ThreadState ==ThreadState.Running)
-                thread.Abort();
-            System.Console.WriteLine(isCaughtProperly
-                                         ? "Critical path caught the loop"
-                                         : "Critical path did not find the loop properly");
         }
 
         private static void Output(IEnumerable<Activity> list)
         {
-            var sb = new StringBuilder();
             Console.Write("\n          Critical Path: ");
             var totalDuration = 0L;
-            foreach (Activity activity in list) {
+            foreach (Activity activity in list)
+            {
+                if (activity.Id == "END") continue;
                 Console.Write("{0} ", activity.Id);
-                sb.AppendFormat("{0} ", activity.Id);
                 totalDuration += activity.Duration;
             }
-            sb.Remove(sb.Length - 1, 1);
-            sb.Append("\r\n" + totalDuration);
-            var output = System.IO.File.ReadAllText("output.txt");
             Console.Write("\n\n         Total duration: {0}\n\n", totalDuration);
-            System.Diagnostics.Debug.Assert(sb.ToString().CompareTo(output.Trim()) == 0);
         }
 
         /// <summary>
@@ -92,7 +44,8 @@ namespace ComputerEngineering
             Console.Write("\n       Number of activities: " + input.Length);
 
             int inx = 0;
-            foreach (var line in input) {
+            foreach (var line in input)
+            {
                 var activity = new Activity();
                 var elements = line.Split(' ');
                 Console.WriteLine("\n                Activity {0}\n", inx + 1);
@@ -109,19 +62,24 @@ namespace ComputerEngineering
                 int np = int.Parse(elements[3]);
                 Console.WriteLine(" Number of predecessors: ", np);
 
-                if (np != 0) {
+                if (np != 0)
+                {
                     var allIds = new List<string>();
-                    for (int j = 0; j < np; j++) {
+                    for (int j = 0; j < np; j++)
+                    {
                         allIds.Add(elements[4 + j]);
                         Console.WriteLine("    #{0} predecessor's ID: " + elements[4 + j], j + 1);
                     }
 
-                    if (allIds.Any(i => !ad.ContainsKey(i))) {
+                    if (allIds.Any(i => !ad.ContainsKey(i)))
+                    {
                         // Defer processing on this one
                         deferredList.Add(activity, allIds);
                     }
-                    else {
-                        foreach (var id in allIds) {
+                    else
+                    {
+                        foreach (var id in allIds)
+                        {
                             var aux = ad[id];
 
                             activity.Predecessors.Add(aux);
@@ -131,12 +89,16 @@ namespace ComputerEngineering
                 list.Add(activity);
             }
 
-            while (deferredList.Count > 0) {
+            while (deferredList.Count > 0)
+            {
                 var processedActivities = new List<Activity>();
-                foreach (var activity in deferredList) {
-                    if (activity.Value.Where(ad.ContainsKey).Count() == activity.Value.Count) {
+                foreach (var activity in deferredList)
+                {
+                    if (activity.Value.Where(ad.ContainsKey).Count() == activity.Value.Count)
+                    {
                         // All dependencies are now loaded
-                        foreach (var id in activity.Value) {
+                        foreach (var id in activity.Value)
+                        {
                             var aux = ad[id];
 
                             activity.Key.Predecessors.Add(aux);
@@ -144,11 +106,39 @@ namespace ComputerEngineering
                         processedActivities.Add(activity.Key);
                     }
                 }
-                foreach (var activity in processedActivities) {
+                foreach (var activity in processedActivities)
+                {
                     deferredList.Remove(activity);
-                }                
+                }
             }
 
+            return GetFreeEndActivities(list);
+        }
+
+        /// <summary>
+        /// Adds a zero duration activity with free end activities as predecessors.
+        /// </summary>
+        /// <param name="list">Array to store the activities that'll be evaluated.</param>
+        /// <returns>list</returns>
+        private static List<Activity> GetFreeEndActivities(List<Activity> list)
+        {
+            var endActivity = new Activity() { Id = "END", Description = "End Activity", Duration = 0 };
+            foreach (var activity in list)
+            {
+                var foundSuccessors = false;
+                foreach (var ac in list)
+                {
+                    if (ac.Predecessors.Any(a => a.Id == activity.Id))
+                    {
+                        foundSuccessors = true;
+                    }
+                }
+                if (!foundSuccessors)
+                {
+                    endActivity.Predecessors.Add(activity);
+                }
+            }
+            list.Add(endActivity);
             return list;
         }
     }
